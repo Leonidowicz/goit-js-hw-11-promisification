@@ -1,10 +1,14 @@
+let ul = document.querySelector('ul');
 //------------------ Задание 1
 
 const delay = (ms) => {
   return new Promise((rej) => setTimeout(() => rej(ms), ms));
 };
 
-const logger1 = (time) => console.log(`Resolved after ${time}ms`);
+const logger1 = (time) => {
+  console.log(`Resolved after ${time}ms`);
+  ul.insertAdjacentHTML('beforeend', `</br><li>Resolved after ${time}ms</li>`);
+};
 
 delay(2000).then(logger1); // Resolved after 2000ms
 delay(1000).then(logger1); // Resolved after 1000ms
@@ -28,7 +32,18 @@ const toggleUserState = (allUsers, userName) => {
   });
 };
 
-const logger = (updatedUsers) => console.table(updatedUsers);
+const logger = (updatedUsers) => {
+  console.table(updatedUsers);
+  ul.insertAdjacentHTML(
+    'beforeend',
+    `<li>
+    ${updatedUsers[0].name} ${updatedUsers[0].active}</br>
+    ${updatedUsers[1].name} ${updatedUsers[1].active}</br>
+    ${updatedUsers[2].name} ${updatedUsers[2].active}</br>
+    ${updatedUsers[3].name} ${updatedUsers[3].active}</br>
+    </li></br>`
+  );
+};
 
 toggleUserState(users, 'Mango').then(logger);
 toggleUserState(users, 'Lux').then(logger);
@@ -53,10 +68,18 @@ const makeTransaction = (transaction) => {
 
 const logSuccess = ([id, time]) => {
   console.log(`Transaction ${id} processed in ${time}ms`);
+  ul.insertAdjacentHTML(
+    'beforeend',
+    `<li>Transaction ${id} processed in ${time}ms</li>`
+  );
 };
 
 const logError = (id) => {
   console.warn(`Error processing transaction ${id}. Please try again later.`);
+  ul.insertAdjacentHTML(
+    'beforeend',
+    `<li>Error processing transaction ${id}. Please try again later.</li>`
+  );
 };
 
 makeTransaction({ id: 70, amount: 150 }).then(logSuccess).catch(logError);
